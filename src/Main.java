@@ -1,3 +1,6 @@
+import mock.UserMock;
+import models.User;
+
 import java.util.Scanner;
 
 public class Main {
@@ -5,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        String user = null;
+        User user = new User();
 
         Scanner input = new Scanner(System.in);
         String command = "login";
@@ -17,10 +20,18 @@ public class Main {
                    String userName = input.nextLine();
                    System.out.println("Please, enter password");
                    String password = input.nextLine();
-                   if (userName.equalsIgnoreCase("Igor") &&
-                           password.equals("1111")) {
+                   user.setUserName(userName);
+                   user.setPassword(password);
+                   UserMock userMock = new UserMock();
+                   User userFound = userMock.checkUser(user);
+                   if (userFound != null) {
                        System.out.println("Welcome " + userName);
-                       user = userName;
+                       if (userFound.getRole() == 1) {
+                           System.out.println("Welcome admin");
+                       }
+                       if (userFound.getRole() == 0) {
+                           System.out.println("Welcome user");
+                       }
                    } else {
                        System.out.println("Wrong log in");
                        command = "login";
